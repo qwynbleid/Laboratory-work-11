@@ -1,4 +1,4 @@
-name: SchemaSQLLinter
+name: DataSchemaCodeConvention
 on:
   push:
     branches: main 
