@@ -1,7 +1,7 @@
 name: ProgramCode
 on: 
   push:
-    branches: Lab11
+    branches: main
 jobs:
   ProgramCode:
     runs-on: ubuntu-latest
