@@ -3,8 +3,9 @@ CREATE TABLE User (
     full_name VARCHAR(255),
     email VARCHAR(255),
     location VARCHAR(255)
-);
-
+)
+ we 5y w
+     
 CREATE TABLE  (
     id INT PRIMARY KEY AUTO_INCREMENT,
     location VARCHAR(255),
