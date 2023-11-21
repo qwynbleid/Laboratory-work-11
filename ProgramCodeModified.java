@@ -1,6 +1,9 @@
 package com.lab9.airstatechecker.controller;
 
+import com.lab9.airstatechecker.entity.AirConditionStateAnswer;
+import com.lab9.airstatechecker.entity.AirConditionStateRequest;
 import com.lab9.airstatechecker.entity.EFreshAir;
+import com.lab9.airstatechecker.entity.User;
 import com.lab9.airstatechecker.service.AnswerService;
 import com.lab9.airstatechecker.service.EFreshAirService;
 import com.lab9.airstatechecker.service.RequestService;
@@ -14,18 +17,13 @@ import java.time.LocalDate;
 
 @Controller
 public class MyController {
-    private final EFreshAirService eFreshAirService;
-    private final UserService userService;
-    private final RequestService requestService;
-    private final AnswerService answerService;
+    private EFreshAirService eFreshAirService;
+    private UserService userService;
+    private RequestService requestService;
+    private AnswerService answerService;
 
     @Autowired
-    public MyController(
-            final EFreshAirService eFreshAirService,
-            final UserService userService,
-            final RequestService requestService,
-            final AnswerService answerService
-    ) {
+    public MyController(EFreshAirService eFreshAirService, UserService userService, RequestService requestService, AnswerService answerService) {
         this.eFreshAirService = eFreshAirService;
         this.userService = userService;
         this.requestService = requestService;
@@ -34,13 +32,11 @@ public class MyController {
 
     @RequestMapping("/")
     public String login() {
-        // method code
         return "login";
     }
-
     @PostMapping("/doLogin")
-    public String doLogin(@RequestParam final String username, @RequestParam final String password) {
-        if ("Andrii".equals(username) && "123456".equals(password)) {
+    public String doLogin(@RequestParam String username, @RequestParam String password) {
+        if (username.equals("Andrii") && password.equals("123456")) {
             userService.save(new User("Andrii", "john.doe@example.com", "New York"));
             return "main-page";
         }
@@ -48,10 +44,13 @@ public class MyController {
     }
 
     @PostMapping("/air-info")
-    public String airStateInfo(@RequestParam final String username, @RequestParam final String location, Model model) {
+    public String airStateInfo(@RequestParam String username, @RequestParam String location, Model model) {
+
         EFreshAir eFreshAir = new EFreshAir();
         String airInfo = eFreshAir.getAirStateInfo(username, location);
         model.addAttribute("airInfo", airInfo);
+
         return "air-info";
     }
+
 }
