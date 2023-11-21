@@ -1,7 +1,7 @@
 /**
  * Provides the classes necessary for the HelloWorld application.
  */
-package HelloWorld;
+package hello.world;
 /**
  * The HelloWorld class prints "Hello World!" to the console.
  */
