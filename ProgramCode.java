@@ -1,4 +1,8 @@
 /**
+ * Provides the classes necessary for the HelloWorld application.
+ */
+package HelloWorld;
+/**
  * The HelloWorld class prints "Hello World!" to the console.
  */
 public final class HelloWorld {
