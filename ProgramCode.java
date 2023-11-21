@@ -1,26 +1,57 @@
-/**
- * Provides the classes necessary for the HelloWorld application.
- */
-package hello.world;
-/**
- * The HelloWorld class prints "Hello World!" to the console.
- */
-public final class HelloWorld {
+package com.lab9.airstatechecker.controller;
 
-    /**
-     * Private constructor to prevent instantiation.
-     */
-    private HelloWorld() {
-        // Utility classes should not have public or default constructors
+import com.lab9.airstatechecker.entity.EFreshAir;
+import com.lab9.airstatechecker.service.AnswerService;
+import com.lab9.airstatechecker.service.EFreshAirService;
+import com.lab9.airstatechecker.service.RequestService;
+import com.lab9.airstatechecker.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+
+@Controller
+public class MyController {
+    private final EFreshAirService eFreshAirService;
+    private final UserService userService;
+    private final RequestService requestService;
+    private final AnswerService answerService;
+
+    @Autowired
+    public MyController(
+            final EFreshAirService eFreshAirService,
+            final UserService userService,
+            final RequestService requestService,
+            final AnswerService answerService
+    ) {
+        this.eFreshAirService = eFreshAirService;
+        this.userService = userService;
+        this.requestService = requestService;
+        this.answerService = answerService;
     }
 
-    /**
-     * The main method that prints "Hello World!" to the console.
-     *
-     * @param args The command line arguments.
-     */
-    public static void main(final String[] args) {
-        // Parameter args should be final
-        System.out.println("Hello World!");
+    @RequestMapping("/")
+    public String login() {
+        // method code
+        return "login";
+    }
+
+    @PostMapping("/doLogin")
+    public String doLogin(@RequestParam final String username, @RequestParam final String password) {
+        if ("Andrii".equals(username) && "123456".equals(password)) {
+            userService.save(new User("Andrii", "john.doe@example.com", "New York"));
+            return "main-page";
+        }
+        return "login";
+    }
+
+    @PostMapping("/air-info")
+    public String airStateInfo(@RequestParam final String username, @RequestParam final String location, Model model) {
+        EFreshAir eFreshAir = new EFreshAir();
+        String airInfo = eFreshAir.getAirStateInfo(username, location);
+        model.addAttribute("airInfo", airInfo);
+        return "air-info";
     }
 }
