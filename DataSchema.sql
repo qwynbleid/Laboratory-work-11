@@ -1,32 +1,32 @@
 CREATE TABLE User (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    full_name VARCHAR(255),
-    email VARCHAR(255),
-    location VARCHAR(255)
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    FullName VARCHAR(255),
+    Email VARCHAR(255),
+    Location VARCHAR(255)
 );
 
 CREATE TABLE AirConditionStateRequest (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    location VARCHAR(255),
-    request_type VARCHAR(255),
-    info VARCHAR(255),
-    userno INT,
-    FOREIGN KEY (userno) REFERENCES User(id)
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Location VARCHAR(255),
+    RequestType VARCHAR(255),
+    Info VARCHAR(255),
+    UserId INT,
+    FOREIGN KEY (UserId) REFERENCES User(Id)
 );
 
 CREATE TABLE EFreshAir (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    location VARCHAR(255),
-    air_condition_state VARCHAR(255)
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Location VARCHAR(255),
+    AirConditionState VARCHAR(255)
 );
 
 CREATE TABLE AirConditionStateAnswer (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    answer_title VARCHAR(255),
-    info VARCHAR(255),
-    date DATE,
-    air_condition_state_requestno INT,
-    efresh_airno INT,
-    FOREIGN KEY (air_condition_state_requestno) REFERENCES AirConditionStateRequest(id),
-    FOREIGN KEY (efresh_airno) REFERENCES EFreshAir(id)
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    AnswerTitle VARCHAR(255),
+    Info VARCHAR(255),
+    Date DATE,
+    AirConditionStateRequestId INT,
+    EFreshAirId INT,
+    FOREIGN KEY (AirConditionStateRequestId) REFERENCES AirConditionStateRequest(Id),
+    FOREIGN KEY (EFreshAirId) REFERENCES EFreshAir(Id)
 );
