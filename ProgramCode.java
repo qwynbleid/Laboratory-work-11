@@ -20,9 +20,7 @@ public class User {
         this.location = location;
     }
 
-    public User() {
-
-    }
+    public User() {}
 
     @Override
     public String toString() {
