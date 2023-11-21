@@ -1,0 +1,14 @@
+name: SchemaSQLLinter
+on:
+  push:
+    branches: main 
+jobs:
+  sql_linter_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: "actions/checkout@v3"
+      - name: Start SQL Schema Linter
+        run: |
+          npm i -g @prantlf/sql-lint
+          sql-lint $GITHUB_WORKSPACE/DataSchema.sql
