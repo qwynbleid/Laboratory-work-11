@@ -1,66 +1,56 @@
-package com.lab9.airstatechecker.entity;
+package com.lab9.airstatechecker.controller;
 
-import jakarta.persistence.*;
+import com.lab9.airstatechecker.entity.AirConditionStateAnswer;
+import com.lab9.airstatechecker.entity.AirConditionStateRequest;
+import com.lab9.airstatechecker.entity.EFreshAir;
+import com.lab9.airstatechecker.entity.User;
+import com.lab9.airstatechecker.service.AnswerService;
+import com.lab9.airstatechecker.service.EFreshAirService;
+import com.lab9.airstatechecker.service.RequestService;
+import com.lab9.airstatechecker.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(name = "full_name")
-    private String fullName;
-    @Column(name = "email")
-    private String email;
-    @Column(name = "location")
-    private String location;
+import java.time.LocalDate;
 
-    public User(String fullName, String email, String location) {
-        this.fullName = fullName;
-        this.email = email;
-        this.location = location;
+@Controller
+public class MyController {
+    private EFreshAirService eFreshAirService;
+    private UserService userService;
+    private RequestService requestService;
+    private AnswerService answerService;
+
+    @Autowired
+    public MyController(EFreshAirService eFreshAirService, UserService userService, RequestService requestService, AnswerService answerService) {
+        this.eFreshAirService = eFreshAirService;
+        this.userService = userService;
+        this.requestService = requestService;
+        this.answerService = answerService;
     }
 
-    public User() {}
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", location='" + location + '\'' +
-                '}';
+    @RequestMapping("/")
+    public String login() {
+        return "login";
+    }
+    @PostMapping("/doLogin")
+    public String doLogin(@RequestParam String username, @RequestParam String password) {
+        if (username.equals("Andrii") && password.equals("123456")) {
+            userService.save(new User("Andrii", "john.doe@example.com", "New York"));
+            return "main-page";
+        }
+        return "login";
     }
 
-    public int getId() {
-        return id;
+    @PostMapping("/air-info")
+    public String airStateInfo(@RequestParam String username, @RequestParam String location, Model model) {
+
+        EFreshAir eFreshAir = new EFreshAir();
+        String airInfo = eFreshAir.getAirStateInfo(username, location);
+        model.addAttribute("airInfo", airInfo);
+
+        return "air-info";
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
 }
